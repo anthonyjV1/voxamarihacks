@@ -1,51 +1,64 @@
-import InterviewCard from '@/components/InterviewCard'
-import { Button } from '@/components/ui/button'
-import { getCurrentUser} from '@/lib/actions/auth.actions'
-import { getInterviewsByUserId, getLatestInterviews } from '@/lib/actions/general.action'
-import Link from 'next/link'
-import React from 'react'
-import AudioRobotWrapper from '@/components/AudioRobotWrapper'
+import React from 'react';
+import Link from 'next/link';
+import InterviewCard from '@/components/InterviewCard';
+import { Button } from '@/components/ui/button';
+import { getCurrentUser } from '@/lib/actions/auth.actions';
+import { getInterviewsByUserId, getLatestInterviews } from '@/lib/actions/general.action';
+import AudioRobotWrapper from '@/components/AudioRobotWrapper';
+import SimpleBackground from '@/components/ParticleBackground';
 
-const Page = async () => {
+export default async function Page() {
   const user = await getCurrentUser();
   const userId = user?.id || '';
   const [userInterviews, latestInterviews] = await Promise.all([
     getInterviewsByUserId(userId),
     getLatestInterviews({ userId }),
   ]);
+  
   const hasPastInterviews = (userInterviews ?? []).length > 0;
   const hasUpcomingInterviews = (latestInterviews ?? []).length > 0;
 
   return (
     <>
-      <section className="card-cta">
-        <div className="flex flex-col gap-6 max-w-lg">
-          <h2>Get Interview Ready with an Ai Interviewer</h2>
-          <p className="text-lg">
-            Practice on Real Interview Questions and Get Instant Feedback
-          </p>
-          <Button asChild className="btn-primary max-sm w-full">
-            <Link href="/interview">Generate Personalized Interview Questions</Link>
-          </Button>
-        </div>
-        <AudioRobotWrapper
-          imageSrc="/robot.png"
-          audioSrc={[
-            "/audio.mp3",
-            "/audio1.mp3",
-            "/audio2.mp3",
-          ]}
-          width={400}
-          height={400}
-          alt="robo-dude"
-          className="max-sm:hidden"
-        />
-      </section>
-      <section className="flex flex-col gap-6 mt-8">
-        <section className="card-cta">
+      {/* Simple background component */}
+      <SimpleBackground />
+      
+      {/* Main content */}
+      <div className="container mx-auto px-4 py-8">
+        {/* Interview section */}
+        <section className="card-cta bg-gray-800/60 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-gray-700">
           <div className="flex flex-col gap-6 max-w-lg">
-            <h2>Optimize Your CV with our trained AI model</h2>
-            <p className="text-lg">
+            <h2 className="text-2xl md:text-3xl font-bold text-white">
+              Get Interview Ready with an Ai Interviewer
+            </h2>
+            <p className="text-lg text-gray-300">
+              Practice on Real Interview Questions and Get Instant Feedback
+            </p>
+            <Button asChild className="btn-primary max-sm w-full">
+              <Link href="/interview">Generate Personalized Interview Questions</Link>
+            </Button>
+          </div>
+          <AudioRobotWrapper
+            imageSrc="/robot.png"
+            audioSrc={[
+              "/audio.mp3",
+              "/audio1.mp3",
+              "/audio2.mp3",
+            ]}
+            width={400}
+            height={400}
+            alt="robo-dude"
+            className="max-sm:hidden"
+          />
+        </section>
+
+        {/* CV section */}
+        <section className="card-cta bg-gray-800/60 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-gray-700 mt-8">
+          <div className="flex flex-col gap-6 max-w-lg">
+            <h2 className="text-2xl md:text-3xl font-bold text-white">
+              Optimize Your CV with our trained AI model
+            </h2>
+            <p className="text-lg text-gray-300">
               Upload your resume for improved feedback
             </p>
             <Button asChild className="btn-primary max-sm w-full">
@@ -65,20 +78,23 @@ const Page = async () => {
             className="max-sm:hidden"
           />
         </section>
-        <section className="flex flex-col gap-6 mt-8"></section>
-        <h2>Your Interviews</h2>
-        <div className="interviews-section">
-          {hasPastInterviews ? (
-            userInterviews?.map((interview) => (
-              <InterviewCard {...interview} key={interview.id} />
-            ))
-          ) : (
-            <p>You haven&apos;t taken any interviews yet</p>
-          )}
-        </div>
-      </section>
+
+        {/* Interview list section */}
+        <section className="flex flex-col gap-6 mt-8">
+          <h2 className="text-2xl font-bold text-white">Your Interviews</h2>
+          <div className="interviews-section">
+            {hasPastInterviews ? (
+              userInterviews?.map((interview) => (
+                <InterviewCard {...interview} key={interview.id} />
+              ))
+            ) : (
+              <p className="text-gray-400 bg-gray-800/40 backdrop-blur-sm p-4 rounded-lg border border-gray-700">
+                You haven&apos;t taken any interviews yet
+              </p>
+            )}
+          </div>
+        </section>
+      </div>
     </>
   );
-};
-
-export default Page;
+}

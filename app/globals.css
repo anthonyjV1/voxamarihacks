@@ -332,3 +332,37 @@
     transform: translateY(0);
   }
 }
+/* Add these to your globals.css file */
+
+body {
+  background-color: #111827; /* dark blue/gray background */
+  color: #f3f4f6;
+}
+
+.card-cta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+
+@media (max-width: 768px) {
+  .card-cta {
+    flex-direction: column;
+  }
+}
+
+.interviews-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.btn-primary {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #2563eb;
+}
