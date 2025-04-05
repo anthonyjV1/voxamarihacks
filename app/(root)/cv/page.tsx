@@ -95,7 +95,7 @@ export default function CVUploadPage() {
       </div>
 
       {isProcessing && (
-        <div className="bg-orange-100 text-orange-800 p-6 rounded-lg mb-8 text-center">
+        <div className="bg-black-100 text-orange-800 p-6 rounded-lg mb-8 text-center">
           <p className="font-medium">Enhancing Your CV...</p>
           <p>This may take a moment.</p>
         </div>
@@ -110,10 +110,45 @@ export default function CVUploadPage() {
       {success && enhancedCV && (
         <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 mt-8">
           <h2 className="text-xl font-bold mb-4">Enhanced CV:</h2>
-          <div 
-            className="bg-white border border-gray-200 rounded-md p-4 mb-4 overflow-auto max-h-[500px]" 
-            dangerouslySetInnerHTML={{ __html: enhancedCV }} 
-          />
+          <div className="cv-content-container">
+            <div 
+              className="bg-gray-100 border-2 border-gray-300 rounded-md p-6 mb-4 overflow-auto max-h-[500px] shadow-inner text-gray-800" 
+              dangerouslySetInnerHTML={{ 
+                __html: `<style>
+                  .cv-content * {
+                    color: #333 !important;
+                    font-family: Arial, sans-serif !important;
+                    line-height: 1.6 !important;
+                  }
+                  
+                  .cv-content h1, .cv-content h2, .cv-content h3 {
+                    margin-top: 1.5rem !important;
+                    margin-bottom: 0.75rem !important;
+                    font-weight: bold !important; 
+                    color: #111 !important;
+                  }
+                  
+                  .cv-content p {
+                    margin-bottom: 1rem !important;
+                  }
+                  
+                  .cv-content ul, .cv-content ol {
+                    margin-left: 1.5rem !important;
+                    margin-bottom: 1rem !important;
+                  }
+                  
+                  .cv-content li {
+                    margin-bottom: 0.5rem !important;
+                  }
+                  
+                  .cv-content strong {
+                    font-weight: bold !important;
+                  }
+                </style>
+                <div class="cv-content">${enhancedCV}</div>` 
+              }}
+            />
+          </div>
           <div className="flex flex-wrap gap-4">
             <button 
               onClick={() => navigator.clipboard.writeText(enhancedCV)}
