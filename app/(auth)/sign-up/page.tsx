@@ -1,12 +1,12 @@
 import AuthForm from '@/components/AuthForm'
-import NeuralBackground from '@/components/NeuralBackground';
+import FuturisticBackground from '@/components/FuturisticBackground';
 import React from 'react'
 
 const page = () => {
   return (
-    <div className="relative h-screen w-screen overflow-hidden bg-gray-900">
+    <div>
       {/* Neural background */}
-      <NeuralBackground />
+      <FuturisticBackground/>
 
       
       {/* Content overlay */}
