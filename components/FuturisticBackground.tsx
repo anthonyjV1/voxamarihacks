@@ -1,13 +1,20 @@
 'use client';
 
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
 
 const FuturisticBackground: React.FC = () => {
   const mountRef = useRef<HTMLDivElement>(null);
+  const [isClient, setIsClient] = useState(false);
+  
+  // Add this to ensure we're on the client side before initializing Three.js
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
   
   useEffect(() => {
-    if (!mountRef.current) return;
+    // Only run if we're on client side and the mount ref exists
+    if (!isClient || !mountRef.current) return;
     
     // Initialize Three.js
     const scene = new THREE.Scene();
@@ -286,8 +293,10 @@ const FuturisticBackground: React.FC = () => {
     
     // Animation loop
     let lastTime = 0;
+    let animationFrameId: number;
+    
     const animate = (time: number) => {
-      requestAnimationFrame(animate);
+      animationFrameId = requestAnimationFrame(animate);
       
       const deltaTime = time - lastTime;
       lastTime = time;
@@ -437,6 +446,7 @@ const FuturisticBackground: React.FC = () => {
       renderer.render(scene, camera);
     };
     
+    // Start animation
     animate(0);
     
     // Change shape every 5 seconds
@@ -454,18 +464,35 @@ const FuturisticBackground: React.FC = () => {
     
     window.addEventListener('resize', handleResize);
     
+    // Force an initial resize to ensure proper dimensions
+    handleResize();
+    
     // Cleanup
     return () => {
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', onMouseMove);
       clearInterval(shapeInterval);
+      
       scene.remove(particleSystem);
       scene.remove(lines);
       scene.remove(tendrils);
+      
+      // Dispose of geometries and materials
+      particlesGeometry.dispose();
+      linesGeometry.dispose();
+      particlesMaterial.dispose();
+      lineMaterial.dispose();
+      
+      // Clean up the renderer
+      if (mountRef.current && renderer.domElement) {
+        mountRef.current.removeChild(renderer.domElement);
+      }
       renderer.dispose();
-      mountRef.current?.removeChild(renderer.domElement);
     };
-  }, []);
+  }, [isClient]); // Add isClient as a dependency
   
   return (
     <div 
