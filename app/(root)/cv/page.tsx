@@ -4,13 +4,12 @@ import { useDropzone } from 'react-dropzone';
 import { useState } from 'react';
 
 export default function CVUploadPage() {
-
   const [error, setError] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [success, setSuccess] = useState(false);
   const [enhancedCV, setEnhancedCV] = useState<string>('');
 
-   const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: {
       'application/pdf': ['.pdf'],
       'application/msword': ['.doc', '.docx'],
@@ -74,136 +73,70 @@ export default function CVUploadPage() {
   });
 
   return (
-    <div className="container">
-      <h1>CV Enhancement with AI</h1>
-      <p className="description">
+    <div className="container mx-auto max-w-3xl px-4 py-8">
+      <h1 className="text-3xl font-bold text-center mb-4">CV Enhancement with AI</h1>
+      <p className="text-gray-600 text-center mb-8">
         Upload your CV and we&apos;ll use Gemini AI to improve it with better wording, formatting, and suggestions.
       </p>
       
-      <div {...getRootProps()} className={`dropzone ${isDragActive ? 'active' : ''}`}>
+      <div 
+        {...getRootProps()} 
+        className={`border-2 border-dashed rounded-lg p-12 text-center cursor-pointer transition-all mb-8 ${
+          isDragActive ? 'border-indigo-500 bg-indigo-50' : 'border-gray-300 hover:border-gray-400'
+        }`}
+      >
         <input {...getInputProps()} />
-        <p>
+        <p className="text-lg mb-2">
           {isDragActive 
             ? 'Drop your CV file here' 
             : 'Drag & drop your CV file here, or click to select'}
         </p>
-        <p className="file-types">Supported formats: PDF, DOC, DOCX, TXT</p>
+        <p className="text-sm text-gray-500">Supported formats: PDF</p>
       </div>
 
       {isProcessing && (
-        <div className="status processing">
-          <p>Analyzing your CV with Gemini AI...</p>
+        <div className="bg-orange-100 text-orange-800 p-6 rounded-lg mb-8 text-center">
+          <p className="font-medium">Enhancing Your CV...</p>
           <p>This may take a moment.</p>
         </div>
       )}
 
       {error && (
-        <div className="status error">
-          <p>Error: {error}</p>
+        <div className="bg-red-100 text-red-800 p-6 rounded-lg mb-8 text-center">
+          <p className="font-medium">Error: {error}</p>
         </div>
       )}
 
       {success && enhancedCV && (
-        <div className="result">
-          <h2>Enhanced CV:</h2>
-          <div className="enhanced-cv" dangerouslySetInnerHTML={{ __html: enhancedCV }} />
-          <div className="actions">
-            <button onClick={() => navigator.clipboard.writeText(enhancedCV)}>
+        <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 mt-8">
+          <h2 className="text-xl font-bold mb-4">Enhanced CV:</h2>
+          <div 
+            className="bg-white border border-gray-200 rounded-md p-4 mb-4 overflow-auto max-h-[500px]" 
+            dangerouslySetInnerHTML={{ __html: enhancedCV }} 
+          />
+          <div className="flex flex-wrap gap-4">
+            <button 
+              onClick={() => navigator.clipboard.writeText(enhancedCV)}
+              className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-md transition-colors"
+            >
               Copy to Clipboard
             </button>
-            <button onClick={() => {
-              const blob = new Blob([enhancedCV], { type: 'text/html' });
-              const url = URL.createObjectURL(blob);
-              const a = document.createElement('a');
-              a.href = url;
-              a.download = 'enhanced-cv.html';
-              a.click();
-            }}>
+            <button 
+              onClick={() => {
+                const blob = new Blob([enhancedCV], { type: 'text/html' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'enhanced-cv.html';
+                a.click();
+              }}
+              className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-md transition-colors"
+            >
               Download as HTML
             </button>
           </div>
         </div>
       )}
-
-      <style jsx>{`
-        .container {
-          max-width: 800px;
-          margin: 2rem auto;
-          padding: 1rem;
-        }
-        h1 {
-          text-align: center;
-          margin-bottom: 1rem;
-        }
-        .description {
-          text-align: center;
-          color: #64748b;
-          margin-bottom: 2rem;
-        }
-        .dropzone {
-          border: 2px dashed #cbd5e1;
-          border-radius: 8px;
-          padding: 3rem;
-          text-align: center;
-          cursor: pointer;
-          transition: all 0.3s;
-          margin-bottom: 2rem;
-        }
-        .dropzone.active {
-          border-color: #6366f1;
-          background-color: #eef2ff;
-        }
-        .file-types {
-          font-size: 0.875rem;
-          color: #64748b;
-          margin-top: 0.5rem;
-        }
-        .status {
-          padding: 1.5rem;
-          border-radius: 8px;
-          margin-bottom: 2rem;
-          text-align: center;
-        }
-        .processing {
-          background-color: #ffedd5;
-          color: #9a3412;
-        }
-        .error {
-          background-color: #fee2e2;
-          color: #b91c1c;
-        }
-        .result {
-          margin-top: 2rem;
-          padding: 1.5rem;
-          background: #f8fafc;
-          border-radius: 8px;
-          border: 1px solid #e2e8f0;
-        }
-        .enhanced-cv {
-          margin: 1rem 0;
-          padding: 1rem;
-          background: white;
-          border-radius: 4px;
-          border: 1px solid #e2e8f0;
-        }
-        .actions {
-          display: flex;
-          gap: 1rem;
-          margin-top: 1rem;
-        }
-        button {
-          padding: 0.5rem 1rem;
-          background: #6366f1;
-          color: white;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-          transition: background 0.2s;
-        }
-        button:hover {
-          background: #4f46e5;
-        }
-      `}</style>
     </div>
   );
 }
