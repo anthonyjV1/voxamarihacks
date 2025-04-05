@@ -53,7 +53,7 @@ const Page = async () => {
             </Button>
           </div>
           <AudioRobotWrapper
-            imageSrc="/robot.png"
+            imageSrc="/robot2.png"
             audioSrc={[
               "/audio.mp3",
               "/audio1.mp3",
