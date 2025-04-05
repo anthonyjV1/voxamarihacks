@@ -29,10 +29,10 @@ export default async function Page() {
         <section className="card-cta bg-gray-800/60 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-gray-700">
           <div className="flex flex-col gap-6 max-w-lg">
             <h2 className="text-2xl md:text-3xl font-bold text-white">
-              Get Interview Ready with an Ai Interviewer
+              Get Interview Ready With An Ai Interviewer
             </h2>
             <p className="text-lg text-gray-300">
-              Practice on Real Interview Questions and Get Instant Feedback
+              Practice On Real Interview Questions And Get Instant Feedback
             </p>
             <Button asChild className="btn-primary max-sm w-full">
               <Link href="/interview">Generate Personalized Interview Questions</Link>
@@ -56,10 +56,10 @@ export default async function Page() {
         <section className="card-cta bg-gray-800/60 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-gray-700 mt-8">
           <div className="flex flex-col gap-6 max-w-lg">
             <h2 className="text-2xl md:text-3xl font-bold text-white">
-              Optimize Your CV with our trained AI model
+              Optimize Your CV With Our Trained AI model
             </h2>
             <p className="text-lg text-gray-300">
-              Upload your resume for improved feedback
+              Upload Your Resume For Improved Feedback
             </p>
             <Button asChild className="btn-primary max-sm w-full">
               <Link href="/cv">Generate Personalized Resumes</Link>

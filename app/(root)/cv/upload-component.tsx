@@ -146,7 +146,7 @@ export default function CVUploadPage() {
           <div className="flex flex-wrap gap-4">
             <button 
               onClick={() => navigator.clipboard.writeText(enhancedCV)}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-md transition-colors"
+              className="bg-gradient-to-br from-purple-500 via-purple-800 to-blue-700 hover:bg-indigo-700 text-white py-2 px-4 rounded-md transition-colors"
             >
               Copy to Clipboard
             </button>
@@ -159,7 +159,7 @@ export default function CVUploadPage() {
                 a.download = 'enhanced-cv.html';
                 a.click();
               }}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-md transition-colors"
+              className="bg-gradient-to-br from-purple-500 via-purple-800 to-blue-700 hover:bg-indigo-700 text-white py-2 px-4 rounded-md transition-colors"
             >
               Download as HTML
             </button>
