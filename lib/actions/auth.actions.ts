@@ -112,11 +112,21 @@ export async function signIn(params: SignInParams) {
   }
 }
 
-// Sign out user by clearing the session cookie
-export async function signOut() {
-  const cookieStore = await cookies();
-
-  cookieStore.delete("session");
+export async function logout() {
+  try {
+    // Clear the session cookie or token
+    // This depends on how you're storing authentication state on the server
+    
+    // If using cookies:
+    const response = await fetch("/api/auth/logout", {
+      method: "POST",
+    });
+    
+    return { success: true };
+  } catch (error) {
+    console.error("Logout error:", error);
+    return { success: false, message: "Failed to logout" };
+  }
 }
 
 // Get current user from session cookie

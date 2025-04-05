@@ -4,6 +4,7 @@ import { ReactNode } from "react";
 import { redirect } from "next/navigation";
 
 import { isAuthenticated } from "@/lib/actions/auth.actions";
+import LogoutButton from "@/components/ui/LogoutButton";
 
 const Layout = async ({ children }: { children: ReactNode }) => {
   const isUserAuthenticated = await isAuthenticated();
@@ -16,6 +17,7 @@ const Layout = async ({ children }: { children: ReactNode }) => {
           <Image src="/logo.svg" alt="MockMate Logo" width={38} height={32} />
           <h2 className="text-primary-100">PrepWise</h2>
         </Link>
+        <LogoutButton />
       </nav>
     
       {children}

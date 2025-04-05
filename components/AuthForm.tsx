@@ -4,7 +4,7 @@ import { z } from "zod";
 import Link from "next/link";
 import Image from "next/image";
 import { toast } from "sonner";
-import { auth } from "@/firebase/client";
+import { aauth } from "@/firebase/client";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -48,7 +48,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
         const { name, email, password } = data;
 
         const userCredential = await createUserWithEmailAndPassword(
-          auth,
+          aauth,
           email,
           password
         );
@@ -70,7 +70,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
         const { email, password } = data;
 
         const userCredential = await signInWithEmailAndPassword(
-          auth,
+          aauth,
           email,
           password
         );
