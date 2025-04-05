@@ -105,9 +105,6 @@ export async function signIn(params: SignInParams) {
 
 export async function logout() {
   try {
-    const response = await fetch("/api/auth/logout", {
-      method: "POST",
-    });
     
     return { success: true };
   } catch (error) {

@@ -259,13 +259,13 @@ const FuturisticBackground: React.FC = () => {
     
     window.addEventListener('mousemove', onMouseMove);
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     let lastTime = 0;
     let animationFrameId: number;
     
     const animate = (time: number) => {
       animationFrameId = requestAnimationFrame(animate);
       
-      const deltaTime = time - lastTime;
       lastTime = time;
 
       particlesMaterial.uniforms.time.value = time;

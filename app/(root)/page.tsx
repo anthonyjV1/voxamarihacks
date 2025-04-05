@@ -10,13 +10,12 @@ import SimpleBackground from '@/components/ParticleBackground';
 export default async function Page() {
   const user = await getCurrentUser();
   const userId = user?.id || '';
-  const [userInterviews, latestInterviews] = await Promise.all([
+  const [userInterviews, ] = await Promise.all([
     getInterviewsByUserId(userId),
     getLatestInterviews({ userId }),
   ]);
   
   const hasPastInterviews = (userInterviews ?? []).length > 0;
-  const hasUpcomingInterviews = (latestInterviews ?? []).length > 0;
 
   return (
     <>

@@ -24,7 +24,7 @@ const SimpleBackground = () => {
     };
 
     class Particle3D {
-      x: number;
+      x!: number;
       y: number;
       z: number;
       radius: number;
@@ -38,8 +38,10 @@ const SimpleBackground = () => {
       pulsePhase: number;
 
       constructor() {
-        this.x = (Math.random() - 0.5) * canvas.width;
-        this.y = (Math.random() - 0.5) * canvas.height;
+        if (canvas) {
+          this.x = canvas ? (Math.random() - 0.5) * canvas.width : 0;
+        }
+        this.y = canvas ? (Math.random() - 0.5) * canvas.height : 0;
         this.z = Math.random() * 1000;
         
         this.radius = Math.random() * 2 + 1;
@@ -64,8 +66,8 @@ const SimpleBackground = () => {
         
         if (this.z < 1) {
           this.z = 1000;
-          this.x = (Math.random() - 0.5) * canvas.width;
-          this.y = (Math.random() - 0.5) * canvas.height;
+          this.x = canvas ? (Math.random() - 0.5) * canvas.width : 0;
+          this.y = canvas ? (Math.random() - 0.5) * canvas.height : 0;
         }
         
         if (isHovered) {
@@ -96,13 +98,13 @@ const SimpleBackground = () => {
 
       draw(ctx: CanvasRenderingContext2D) {
         const scale = 900 / (900 + this.z);
-        const projectedX = canvas.width / 2 + this.x * scale;
-        const projectedY = canvas.height / 2 + this.y * scale;
+        const projectedX = canvas ? canvas.width / 2 + this.x * scale : 0;
+        const projectedY = canvas ? canvas.height / 2 + this.y * scale : 0;
         const projectedRadius = this.radius * scale * 1.5;
         
         if (
           projectedX + projectedRadius > 0 &&
-          projectedX - projectedRadius < canvas.width &&
+          canvas && projectedX - projectedRadius < canvas.width &&
           projectedY + projectedRadius > 0 &&
           projectedY - projectedRadius < canvas.height
         ) {

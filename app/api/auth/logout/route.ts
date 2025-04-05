@@ -25,12 +25,12 @@ export async function POST() {
     });
 
     return response;
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error in logout API:", error);
     return NextResponse.json(
       {
         success: false,
-        message: `Failed to clear cookies: ${error.message}`,
+        message: `Failed to clear cookies: ${"Error"}`,
       },
       { status: 500 }
     );
