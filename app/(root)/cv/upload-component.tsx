@@ -16,7 +16,7 @@ export default function CVUploadPage() {
       'text/plain': ['.txt']
     },
     maxFiles: 1,
-    maxSize: 5 * 1024 * 1024, // 5MB
+    maxSize: 5 * 1024 * 1024, 
     onDrop: async (acceptedFiles, fileRejections) => {
       if (fileRejections.length > 0) {
         setError(fileRejections[0].errors[0].message);
@@ -39,7 +39,6 @@ export default function CVUploadPage() {
           body: formData,
         });
 
-        // Check if response is JSON
         const contentType = response.headers.get('content-type');
         if (!contentType || !contentType.includes('application/json')) {
           const text = await response.text();

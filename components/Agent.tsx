@@ -34,12 +34,9 @@ const Agent = ({
   const [lastMessage, setLastMessage] = useState<string>("");
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // Initialize webcam immediately when component mounts
   useEffect(() => {
-    // Start camera immediately on component mount
     startCamera();
     
-    // Stop camera when component unmounts
     return () => {
       stopCamera();
     };
@@ -49,7 +46,7 @@ const Agent = ({
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ 
         video: true,
-        audio: false // Not needed for just the face cam
+        audio: false 
       });
       
       if (videoRef.current) {
@@ -132,7 +129,6 @@ const Agent = ({
       }
     };
     if (callStatus === CallStatus.FINISHED) {
-      // Stop camera when call ends
       stopCamera();
       
       if (type === "generate") {
@@ -175,7 +171,6 @@ const Agent = ({
   return (
     <>
       <div className="call-view">
-        {/* AI Interviewer Card */}
         <div className="card-interviewer" >
           <div className="avatar size-[225px]" >
             <Image
@@ -189,7 +184,6 @@ const Agent = ({
           </div>
           <h3>AI Interviewer</h3>
         </div>
-        {/* User Profile Card with Camera */}
         <div className="card-border">
           <div className="card-content">
             <video 

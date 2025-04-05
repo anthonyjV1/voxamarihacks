@@ -29,7 +29,6 @@ const AudioRobot = ({
   };
 
   const handleClick = () => {
-    // Create new audio instance on each click for true randomization
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.src = '';

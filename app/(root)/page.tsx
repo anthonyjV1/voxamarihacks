@@ -20,12 +20,9 @@ export default async function Page() {
 
   return (
     <>
-      {/* Simple background component */}
       <SimpleBackground />
       
-      {/* Main content */}
       <div className="container mx-auto px-4 py-8">
-        {/* Interview section */}
         <section className="card-cta bg-gray-800/60 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-gray-700">
           <div className="flex flex-col gap-6 max-w-lg">
             <h2 className="text-2xl md:text-3xl font-bold text-white">
@@ -52,7 +49,6 @@ export default async function Page() {
           />
         </section>
 
-        {/* CV section */}
         <section className="card-cta bg-gray-800/60 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-gray-700 mt-8">
           <div className="flex flex-col gap-6 max-w-lg">
             <h2 className="text-2xl md:text-3xl font-bold text-white">
@@ -79,7 +75,6 @@ export default async function Page() {
           />
         </section>
 
-        {/* Interview list section */}
         <section className="mt-16">
           <h2 className="text-2xl font-bold text-white mb-6">Your Interviews</h2>
           

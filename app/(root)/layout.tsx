@@ -12,7 +12,6 @@ const Layout = async ({ children }: { children: ReactNode }) => {
 
   return (
     <div className="root-layout">
-  {/* Navigation bar with logo left, logout button right */}
   <nav className="flex justify-between items-center px-6 py-4">
     <Link href="/" className="flex items-center gap-2">
       <Image src="/logo.svg" alt="MockMate Logo" width={38} height={32} />
@@ -22,7 +21,6 @@ const Layout = async ({ children }: { children: ReactNode }) => {
     <LogoutButton />
   </nav>
 
-  {/* Page content */}
   <main className="px-6 py-4">
     {children}
   </main>
