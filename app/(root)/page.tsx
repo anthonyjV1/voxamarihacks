@@ -34,6 +34,22 @@ const Page = async () => {
       </section>
 
       <section className="flex flex-col gap-6 mt-8">
+
+      <section className="card-cta">
+        <div className="flex flex-col gap-6 max-w-lg">
+          <h2>Optimize Your CV with our trained AI model</h2>
+          <p className="text-lg">
+            Upload your resume for improved feedback
+          </p>
+          <Button asChild className="btn-primary max-sm w-full">
+            <Link href="/cv">Generate Personalized Resumes</Link>
+          </Button>
+        </div>
+        <Image src="/robot.png" alt="robo-dude" width={400} height={400} className="max-sm:hidden" />
+      </section>
+
+      <section className="flex flex-col gap-6 mt-8"></section>
+        
         <h2>Your Interviews</h2>
         <div className="interviews-section">
           {hasPastInterviews ? (
