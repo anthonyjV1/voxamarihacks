@@ -1,9 +1,7 @@
 "use client";
-
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-
 import { cn } from "@/lib/utils";
 import { vapi } from "@/lib/vapi.sdk";
 import { interviewer } from "@/constants";
@@ -34,49 +32,68 @@ const Agent = ({
   const [messages, setMessages] = useState<SavedMessage[]>([]);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [lastMessage, setLastMessage] = useState<string>("");
+  const videoRef = useRef<HTMLVideoElement>(null);
 
+  // Initialize webcam immediately when component mounts
+  useEffect(() => {
+    // Start camera immediately on component mount
+    startCamera();
+    
+    // Stop camera when component unmounts
+    return () => {
+      stopCamera();
+    };
+  }, []);
+
+  const startCamera = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ 
+        video: true,
+        audio: false // Not needed for just the face cam
+      });
+      
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+      }
+    } catch (error) {
+      console.error("Error accessing camera:", error);
+    }
+  };
+
+  const stopCamera = () => {
+    if (videoRef.current && videoRef.current.srcObject) {
+      const stream = videoRef.current.srcObject as MediaStream;
+      const tracks = stream.getTracks();
+      
+      tracks.forEach(track => track.stop());
+      videoRef.current.srcObject = null;
+    }
+  };
 
   useEffect(() => {
     const onCallStart = () => {
       setCallStatus(CallStatus.ACTIVE);
     };
-
     const onCallEnd = () => {
       setCallStatus(CallStatus.FINISHED);
     };
-
     const onMessage = (message: Message) => {
       if (message.type === "transcript" && message.transcriptType === "final") {
         const newMessage = { role: message.role, content: message.transcript };
         setMessages((prev) => [...prev, newMessage]);
       }
     };
-
     const onSpeechStart = () => {
       console.log("speech start");
       setIsSpeaking(true);
     };
-    
-
     const onSpeechEnd = () => {
       console.log("speech end");
       setIsSpeaking(false);
     };
-
     const onError = (error: Error) => {
       console.log("Error:", error);
     };
-    // Add this to your existing event listeners
-    const onCallError = (error: Error) => {
-      console.error("Call error:", error);
-  // Handle gracefully instead of just logging
-      setCallStatus(CallStatus.FINISHED);
-  // Maybe set an error state to show to the user
-};
-
-    vapi.on("error", onCallError);
-// Don't forget to remove in cleanup
-    vapi.off("error", onCallError);
 
     vapi.on("call-start", onCallStart);
     vapi.on("call-end", onCallEnd);
@@ -99,17 +116,14 @@ const Agent = ({
     if (messages.length > 0) {
       setLastMessage(messages[messages.length - 1].content);
     }
-
     const handleGenerateFeedback = async (messages: SavedMessage[]) => {
       console.log("handleGenerateFeedback");
-
       const { success, feedbackId: id } = await createFeedback({
         interviewId: interviewId!,
         userId: userId!,
         transcript: messages,
         feedbackId,
       });
-
       if (success && id) {
         router.push(`/interview/${interviewId}/feedback`);
       } else {
@@ -117,8 +131,10 @@ const Agent = ({
         router.push("/");
       }
     };
-
     if (callStatus === CallStatus.FINISHED) {
+      // Stop camera when call ends
+      stopCamera();
+      
       if (type === "generate") {
         router.push("/");
       } else {
@@ -129,13 +145,12 @@ const Agent = ({
 
   const handleCall = async () => {
     setCallStatus(CallStatus.CONNECTING);
-
     if (type === "generate") {
       await vapi.start(process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID!, {
         variableValues: {
           username: userName,
           userid: userId,
-        }, 
+        },
       });
     } else {
       let formattedQuestions = "";
@@ -144,7 +159,6 @@ const Agent = ({
           .map((question) => `- ${question}`)
           .join("\n");
       }
-
       await vapi.start(interviewer, {
         variableValues: {
           questions: formattedQuestions,
@@ -162,8 +176,8 @@ const Agent = ({
     <>
       <div className="call-view">
         {/* AI Interviewer Card */}
-        <div className="card-interviewer">
-          <div className="avatar">
+        <div className="card-interviewer" >
+          <div className="avatar size-[225px]" >
             <Image
               src="/ai-avatar.png"
               alt="profile-image"
@@ -175,22 +189,20 @@ const Agent = ({
           </div>
           <h3>AI Interviewer</h3>
         </div>
-
-        {/* User Profile Card */}
+        {/* User Profile Card with Camera */}
         <div className="card-border">
           <div className="card-content">
-            <Image
-              src="/user-avatar.png"
-              alt="profile-image"
-              width={539}
-              height={539}
-              className="rounded-full object-cover size-[120px]"
+            <video 
+              ref={videoRef}
+              autoPlay
+              playsInline
+              muted
+              className="rounded-full object-cover size-[225px]"
             />
             <h3>{userName}</h3>
           </div>
         </div>
       </div>
-
       {messages.length > 0 && (
         <div className="transcript-border">
           <div className="transcript">
@@ -206,7 +218,6 @@ const Agent = ({
           </div>
         </div>
       )}
-
       <div className="w-full flex justify-center mt-10">
         {callStatus !== "ACTIVE" ? (
           <button className="relative btn-call" onClick={() => handleCall()}>
@@ -216,7 +227,6 @@ const Agent = ({
                 callStatus !== "CONNECTING" && "hidden"
               )}
             />
-
             <span className="relative">
               {callStatus === "INACTIVE" || callStatus === "FINISHED"
                 ? "Call"

@@ -14,7 +14,7 @@ const Page = async () => {
       
       {/* Main content */}
       <div className="relative z-10">
-        <h3 className="mb-5">Interview generation</h3>
+        <h3 className="mb-5">Interview Generation</h3>
         <Agent userName = {user?.name ?? ''} userId = {user?.id} type = "generate" />
       </div>
     </div>
