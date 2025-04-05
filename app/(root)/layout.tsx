@@ -12,16 +12,22 @@ const Layout = async ({ children }: { children: ReactNode }) => {
 
   return (
     <div className="root-layout">
-      <nav>
-        <Link href="/" className="flex items-center gap-2">
-          <Image src="/logo.svg" alt="MockMate Logo" width={38} height={32} />
-          <h2 className="text-primary-100">PrepWise</h2>
-        </Link>
-        <LogoutButton />
-      </nav>
+  {/* Navigation bar with logo left, logout button right */}
+  <nav className="flex justify-between items-center px-6 py-4">
+    <Link href="/" className="flex items-center gap-2">
+      <Image src="/logo.svg" alt="MockMate Logo" width={58} height={32} />
+      <h2 className="text-primary-100 text-3xl font-semibold">PrepWise</h2>
+    </Link>
     
-      {children}
-    </div>
+    <LogoutButton />
+  </nav>
+
+  {/* Page content */}
+  <main className="px-6 py-4">
+    {children}
+  </main>
+</div>
+
   );
 };
 
