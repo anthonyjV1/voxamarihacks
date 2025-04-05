@@ -80,19 +80,24 @@ export default async function Page() {
         </section>
 
         {/* Interview list section */}
-        <section className="flex flex-col gap-6 mt-8">
-          <h2 className="text-2xl font-bold text-white">Your Interviews</h2>
-          <div className="interviews-section">
-            {hasPastInterviews ? (
-              userInterviews?.map((interview) => (
-                <InterviewCard {...interview} key={interview.id} />
-              ))
-            ) : (
-              <p className="text-gray-400 bg-gray-800/40 backdrop-blur-sm p-4 rounded-lg border border-gray-700">
-                You haven&apos;t taken any interviews yet
-              </p>
-            )}
-          </div>
+        <section className="mt-16">
+          <h2 className="text-2xl font-bold text-white mb-6">Your Interviews</h2>
+          
+          {hasPastInterviews ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {userInterviews?.map((interview) => (
+                <div key={interview.id} className="bg-gray-800/60 backdrop-blur-sm rounded-xl border border-gray-700 overflow-hidden">
+                  <div className="p-4">
+                    <InterviewCard {...interview} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-400 bg-gray-800/40 backdrop-blur-sm p-4 rounded-lg border border-gray-700">
+              You haven&apos;t taken any interviews yet
+            </p>
+          )}
         </section>
       </div>
     </>
