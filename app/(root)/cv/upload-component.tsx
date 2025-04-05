@@ -85,7 +85,7 @@ export default function CVUploadPage() {
             ? 'Drop your CV file here' 
             : 'Drag & drop your CV file here, or click to select'}
         </p>
-        <p className="text-sm text-gray-500">Supported formats: PDF, DOC, DOCX, TXT</p>
+        <p className="text-sm text-gray-500">Supported formats: PDF</p>
       </div>
 
       {isProcessing && (
