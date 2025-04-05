@@ -2,22 +2,20 @@ import InterviewCard from '@/components/InterviewCard'
 import { Button } from '@/components/ui/button'
 import { getCurrentUser} from '@/lib/actions/auth.actions'
 import { getInterviewsByUserId, getLatestInterviews } from '@/lib/actions/general.action'
-import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import AudioRobotWrapper from '@/components/AudioRobotWrapper'
 
 const Page = async () => {
   const user = await getCurrentUser();
-  const userId = user?.id || ''; // Use empty string or appropriate default value
-  
+  const userId = user?.id || '';
   const [userInterviews, latestInterviews] = await Promise.all([
     getInterviewsByUserId(userId),
     getLatestInterviews({ userId }),
   ]);
-  
   const hasPastInterviews = (userInterviews ?? []).length > 0;
   const hasUpcomingInterviews = (latestInterviews ?? []).length > 0;
-  
+
   return (
     <>
       <section className="card-cta">
@@ -30,26 +28,44 @@ const Page = async () => {
             <Link href="/interview">Generate Personalized Interview Questions</Link>
           </Button>
         </div>
-        <Image src="/robot.png" alt="robo-dude" width={400} height={400} className="max-sm:hidden" />
+        <AudioRobotWrapper
+          imageSrc="/robot.png"
+          audioSrc={[
+            "/audio.mp3",
+            "/audio1.mp3",
+            "/audio2.mp3",
+          ]}
+          width={400}
+          height={400}
+          alt="robo-dude"
+          className="max-sm:hidden"
+        />
       </section>
-
       <section className="flex flex-col gap-6 mt-8">
-
-      <section className="card-cta">
-        <div className="flex flex-col gap-6 max-w-lg">
-          <h2>Optimize Your CV with our trained AI model</h2>
-          <p className="text-lg">
-            Upload your resume for improved feedback
-          </p>
-          <Button asChild className="btn-primary max-sm w-full">
-            <Link href="/cv">Generate Personalized Resumes</Link>
-          </Button>
-        </div>
-        <Image src="/robot.png" alt="robo-dude" width={400} height={400} className="max-sm:hidden" />
-      </section>
-
-      <section className="flex flex-col gap-6 mt-8"></section>
-        
+        <section className="card-cta">
+          <div className="flex flex-col gap-6 max-w-lg">
+            <h2>Optimize Your CV with our trained AI model</h2>
+            <p className="text-lg">
+              Upload your resume for improved feedback
+            </p>
+            <Button asChild className="btn-primary max-sm w-full">
+              <Link href="/cv">Generate Personalized Resumes</Link>
+            </Button>
+          </div>
+          <AudioRobotWrapper
+            imageSrc="/robot.png"
+            audioSrc={[
+              "/audio.mp3",
+              "/audio1.mp3",
+              "/audio2.mp3"
+            ]}
+            width={400}
+            height={400}
+            alt="robo-dude"
+            className="max-sm:hidden"
+          />
+        </section>
+        <section className="flex flex-col gap-6 mt-8"></section>
         <h2>Your Interviews</h2>
         <div className="interviews-section">
           {hasPastInterviews ? (
@@ -61,7 +77,6 @@ const Page = async () => {
           )}
         </div>
       </section>
-
       <section className="flex flex-col gap-6 mt-8">
         <h2>Take an Interview</h2>
         <div className="interviews-section">
@@ -75,7 +90,7 @@ const Page = async () => {
         </div>
       </section>
     </>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;
