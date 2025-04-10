@@ -31,7 +31,7 @@ export default async function Page() {
               Practice On Real Interview Questions And Get Instant Feedback
             </p>
             <Button asChild className="btn-primary max-sm w-full">
-              <Link href="/interview">Generate Personalized Interview Questions</Link>
+              <Link href="/root/interview">Generate Personalized Interview Questions</Link>
             </Button>
           </div>
           <AudioRobotWrapper
@@ -57,7 +57,7 @@ export default async function Page() {
               Upload Your Resume For Improved Feedback
             </p>
             <Button asChild className="btn-primary max-sm w-full">
-              <Link href="/cv">Generate Personalized Resumes</Link>
+              <Link href="/root/cv">Generate Personalized Resumes</Link>
             </Button>
           </div>
           <AudioRobotWrapper
