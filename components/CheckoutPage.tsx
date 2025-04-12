@@ -30,36 +30,47 @@ const CheckoutPage = ({ amount }: { amount: number }) => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
-
+    
     if (!stripe || !elements) {
+      console.log("Stripe or elements not loaded");
       return;
     }
-
+    
+    console.log("Submitting payment form...");
     const { error: submitError } = await elements.submit();
-
     if (submitError) {
+      console.error("Submit error:", submitError);
       setErrorMessage(submitError.message);
       setLoading(false);
       return;
     }
-
-    const { error } = await stripe.confirmPayment({
-      elements,
-      clientSecret,
-      confirmParams: {
-        return_url: `http://www.localhost:3000/payment-success?amount=${amount}`,
-      },
-    });
-
-    if (error) {
-      // This point is only reached if there's an immediate error when
-      // confirming the payment. Show the error to your customer (for example, payment details incomplete)
-      setErrorMessage(error.message);
-    } else {
-      // The payment UI automatically closes with a success animation.
-      // Your customer is redirected to your `return_url`.
+    
+    console.log("Confirming payment with client secret:", clientSecret.substring(0, 10) + "...");
+    try {
+      const { error, paymentIntent } = await stripe.confirmPayment({
+        elements,
+        clientSecret,
+        confirmParams: {
+          return_url: `http://localhost:3000/payment-success?amount=${amount}`,
+        },
+        redirect: "if_required", // Add this to see if Stripe is attempting to redirect
+      });
+      
+      if (error) {
+        console.error("Payment confirmation error:", error);
+        setErrorMessage(error.message);
+      } else if (paymentIntent) {
+        console.log("Payment intent:", paymentIntent.status);
+        if (paymentIntent.status === "succeeded") {
+          // If redirect doesn't happen automatically, do it manually
+          window.location.href = `/payment-success?amount=${amount}`;
+        }
+      }
+    } catch (e) {
+      console.error("Exception during payment confirmation:", e);
+      setErrorMessage("An unexpected error occurred");
     }
-
+    
     setLoading(false);
   };
 

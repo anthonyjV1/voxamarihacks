@@ -1,3 +1,4 @@
+
 import { getRandomInterviewCover } from "@/lib/utils";
 import dayjs from "dayjs";
 import Image from "next/image";
@@ -5,11 +6,19 @@ import { Button } from "./ui/button";
 import Link from "next/link";
 import DisplayTechIcons from "./DisplayTechIcons";
 import { getFeedbackByInterviewId } from "@/lib/actions/general.action";
+import { getCurrentUser } from "@/lib/actions/auth.actions";
 
+// Update props to include userId for fetching user data
 const InterviewCard = async ({ id, userId, role, type, techstack, createdAt }: InterviewCardProps) => { 
-    const feedback =userId && id
-    ? await getFeedbackByInterviewId({ interviewId: id, userId})
-    : null;   
+    // Fetch feedback data
+    const feedback = userId && id
+        ? await getFeedbackByInterviewId({ interviewId: id, userId})
+        : null;
+    
+    // Fetch current user to check plan status
+    const currentUser = await getCurrentUser();
+    const isPremium = currentUser?.plan === "premium";
+    
     const normalizedType = /mix/gi.test(type) ? "Mixed" : type;
     const formattedDate = dayjs(feedback?.createdAt || createdAt || Date.now()).format("DD/MM/YYYY");
 
@@ -70,14 +79,29 @@ const InterviewCard = async ({ id, userId, role, type, techstack, createdAt }: I
                 {/* Tech Icons and Button */}
                 <div className="mt-4 flex flex-col-reverse sm:flex-row justify-between items-center gap-4">
                     <DisplayTechIcons techStack={techstack} />
-                    <Button 
-                        asChild 
-                        className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white transition-colors"
-                    >
-                        <Link href={feedback ? `/interview/${id}/feedback` : `/interview/${id}`}>
-                            {feedback ? "View Feedback" : "Start Interview"}
-                        </Link>
-                    </Button>
+                    
+                    {isPremium ? (
+                        <Button 
+                            asChild 
+                            className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white transition-colors"
+                        >
+                            <Link href={feedback ? `/interview/${id}/feedback` : `/interview/${id}`}>
+                                {feedback ? "View Feedback" : "Start Interview"}
+                            </Link>
+                        </Button>
+                    ) : (
+                        <Button 
+                            
+                            className="w-full sm:w-auto bg-gray-400 text-white cursor-not-allowed"
+                            title="Premium subscription required"
+                        >
+                            <Link href="/stripe">
+                                Premium Feature
+                            </Link>
+                            
+
+                        </Button>
+                    )}
                 </div>
             </div>
         </div>
