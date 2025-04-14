@@ -25,6 +25,7 @@ interface SignUpParams {
   uid: string;
   name: string;
   email: string;
+  plan?: "free" | "premium"; // Optional plan parameter
 }
 
 interface SignInParams {
@@ -40,8 +41,7 @@ interface User {
 }
 
 export async function signUp(params: SignUpParams) {
-  const { uid, name, email } = params;
-
+  const { uid, name, email, plan = "free" } = params; // Default to "free" if not specified
   try {
     const userRecord = await db.collection("users").doc(uid).get();
     if (userRecord.exists)
@@ -49,26 +49,25 @@ export async function signUp(params: SignUpParams) {
         success: false,
         message: "User already exists. Please sign in.",
       };
-
+    
     await db.collection("users").doc(uid).set({
       name,
       email,
+      plan, // Add the plan field here
     });
-
+    
     return {
       success: true,
       message: "Account created successfully. Please sign in.",
     };
   } catch (error) {
     console.error("Error creating user:", error);
-
     if ((error as { code: string }).code === "auth/email-already-exists") {
       return {
         success: false,
         message: "This email is already in use",
       };
     }
-
     return {
       success: false,
       message: "Failed to create account. Please try again.",
@@ -118,7 +117,6 @@ export async function getCurrentUser(): Promise<User | null> {
 
   const sessionCookie = cookieStore.get("session")?.value;
   if (!sessionCookie) return null;
-
   try {
     const decodedClaims = await auth.verifySessionCookie(sessionCookie, true);
 
