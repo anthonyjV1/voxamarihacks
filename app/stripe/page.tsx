@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 
 export default function Home() {
-  const amount = 1.00;
+  const amount = 9.99;
   const [isLoaded, setIsLoaded] = useState(false);
   
   useEffect(() => {

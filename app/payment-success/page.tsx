@@ -100,7 +100,7 @@ export default function PaymentSuccess({
                   <div className="w-1 h-1 rounded-full bg-purple-400"></div>
                 </div>
                 <div className="text-5xl font-bold text-white">
-                  ${amount}
+                  ${amount} USD
                 </div>
               </div>
             </div>
