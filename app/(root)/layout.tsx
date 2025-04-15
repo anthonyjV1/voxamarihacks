@@ -12,7 +12,7 @@ const Layout = async ({ children }: { children: ReactNode }) => {
 
   return (
     <div className="root-layout">
-  <nav className="flex justify-between items-center px-6 py-4">
+  <nav className="flex justify-between items-center px-6 py-4 relative z-20">
     <Link href="/" className="flex items-center gap-2">
       <Image src="/logo.png" alt="MockMate Logo" width={58} height={42} />
       <h2 className="text-primary-100 text-2xl font-extrabold">Voxa</h2>

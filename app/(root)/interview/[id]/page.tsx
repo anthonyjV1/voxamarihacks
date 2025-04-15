@@ -6,6 +6,7 @@ import { getRandomInterviewCover } from "@/lib/utils";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import NeuralBackground from "@/components/NeuralBackground"; // Import the component
+import FuturisticBackground from "@/components/FuturisticBackground";
 
 const page = async ({params}: RouteParams) => {
   const {id} = await params;
@@ -16,7 +17,7 @@ const page = async ({params}: RouteParams) => {
   return (
     <>
       {/* Add the NeuralBackground component */}
-      <NeuralBackground />
+      <FuturisticBackground />
       
       <div className="relative z-10"> {/* Add a wrapper with z-index to ensure content is above the background */}
         <div className="flex flex-row gap-4 justify-between">

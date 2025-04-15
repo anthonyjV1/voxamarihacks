@@ -83,7 +83,7 @@ const InterviewCard = async ({ id, userId, role, type, techstack, createdAt }: I
                     {isPremium ? (
                         <Button 
                             asChild 
-                            className="w-full sm:w-auto px-2 py-3 text-white font-semibold text-lg tracking-wide rounded-xl bg-[#212861] border-2 border-transparent hover:border-[#3b82f6] hover:bg-[#1e40af] hover:scale-105 transition-all duration-300 ease-in-out shadow-md hover:shadow-lg"
+                            className="w-full sm:w-auto px-2 py-3 text-white font-semibold text-lg tracking-wide rounded-xl bg-[#192c6a] border-2 border-transparent hover:border-[#3b82f6] hover:bg-[#1e40af] hover:scale-105 transition-all duration-300 ease-in-out shadow-md hover:shadow-lg"
                         >
                             <Link href={feedback ? `/interview/${id}/feedback` : `/interview/${id}`}>
                                 {feedback ? "View Feedback" : "Start Interview"}
