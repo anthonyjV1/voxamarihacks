@@ -83,7 +83,7 @@ const InterviewCard = async ({ id, userId, role, type, techstack, createdAt }: I
                     {isPremium ? (
                         <Button 
                             asChild 
-                            className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white transition-colors"
+                            className="w-full sm:w-auto px-2 py-3 text-white font-semibold text-lg tracking-wide rounded-xl bg-[#212861] border-2 border-transparent hover:border-[#3b82f6] hover:bg-[#1e40af] hover:scale-105 transition-all duration-300 ease-in-out shadow-md hover:shadow-lg"
                         >
                             <Link href={feedback ? `/interview/${id}/feedback` : `/interview/${id}`}>
                                 {feedback ? "View Feedback" : "Start Interview"}
@@ -92,7 +92,7 @@ const InterviewCard = async ({ id, userId, role, type, techstack, createdAt }: I
                     ) : (
                         <Button 
                             
-                            className="w-full sm:w-auto bg-gray-400 text-white cursor-not-allowed"
+                            className="w-full sm:w-auto relative inline-flex items-center justify-center px-2 py-3 text-white font-semibold text-lg tracking-wide rounded-2xl bg-gradient-to-r from-[#1f1c2c] via-[#928DAB] to-[#1f1c2c] shadow-lg backdrop-blur-md border border-white/20 transition-all duration-300 ease-in-out hover:shadow-[0_0_15px_3px_rgba(147,112,219,0.6)] hover:from-purple-600 hover:to-indigo-600"
                             title="Premium subscription required"
                         >
                             <Link href="/stripe">
