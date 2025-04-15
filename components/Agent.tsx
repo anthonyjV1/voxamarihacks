@@ -198,6 +198,7 @@ const Agent = ({
         </div>
       </div>
       {messages.length > 0 && (
+        <div className="mt-5">
         <div className="transcript-border">
           <div className="transcript">
             <p
@@ -210,6 +211,7 @@ const Agent = ({
               {lastMessage}
             </p>
           </div>
+        </div>
         </div>
       )}
       <div className="w-full flex justify-center mt-10">
